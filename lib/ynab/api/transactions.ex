@@ -10,46 +10,46 @@ defmodule YNAB.Api.Transactions do
   import YNAB.RequestBuilder
 
   @doc """
-  Bulk create transactions
-  Creates multiple transactions
+  Create a single transaction or multiple transactions
+  Creates a single transaction or multiple transactions.  If you provide a body containing a &#39;transaction&#39; object, a single transaction will be created and if you provide a body containing a &#39;transactions&#39; array, multiple transactions will be created.
 
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - transactions (BulkTransactions): The list of Transactions to create.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - save_transactions (SaveTransactionsWrapper): The transaction or transactions to create
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
 
-  {:ok, %YNAB.Model.BulkResponse{}} on success
+  {:ok, %YNAB.Model.SaveTransactionsResponse{}} on success
   {:error, info} on failure
   """
-  @spec bulk_create_transactions(
+  @spec create_transaction(
           Tesla.Env.client(),
           String.t(),
-          YNAB.Model.BulkTransactions.t(),
+          YNAB.Model.SaveTransactionsWrapper.t(),
           keyword()
-        ) :: {:ok, YNAB.Model.BulkResponse.t()} | {:error, Tesla.Env.t()}
-  def bulk_create_transactions(client, budget_id, transactions, _opts \\ []) do
+        ) :: {:ok, YNAB.Model.SaveTransactionsResponse.t()} | {:error, Tesla.Env.t()}
+  def create_transaction(client, budget_id, save_transactions, _opts \\ []) do
     %{}
     |> method(:post)
-    |> url("/budgets/#{budget_id}/transactions/bulk")
-    |> add_param(:body, :transactions, transactions)
+    |> url("/budgets/#{budget_id}/transactions")
+    |> add_param(:body, :save_transactions, save_transactions)
     |> Enum.into([])
     |> (&Client.request(client, &1)).()
-    |> decode(%YNAB.Model.BulkResponse{})
+    |> decode(%YNAB.Model.SaveTransactionsResponse{})
   end
 
   @doc """
-  Create new transaction
-  Creates a transaction
+  Single transaction
+  Returns a single transaction
 
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - transaction (SaveTransactionWrapper): The Transaction to create.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - transaction_id (String.t): The id of the transaction
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -57,17 +57,12 @@ defmodule YNAB.Api.Transactions do
   {:ok, %YNAB.Model.TransactionResponse{}} on success
   {:error, info} on failure
   """
-  @spec create_transaction(
-          Tesla.Env.client(),
-          String.t(),
-          YNAB.Model.SaveTransactionWrapper.t(),
-          keyword()
-        ) :: {:ok, YNAB.Model.TransactionResponse.t()} | {:error, Tesla.Env.t()}
-  def create_transaction(client, budget_id, transaction, _opts \\ []) do
+  @spec get_transaction_by_id(Tesla.Env.client(), String.t(), String.t(), keyword()) ::
+          {:ok, YNAB.Model.TransactionResponse.t()} | {:error, Tesla.Env.t()}
+  def get_transaction_by_id(client, budget_id, transaction_id, _opts \\ []) do
     %{}
-    |> method(:post)
-    |> url("/budgets/#{budget_id}/transactions")
-    |> add_param(:body, :transaction, transaction)
+    |> method(:get)
+    |> url("/budgets/#{budget_id}/transactions/#{transaction_id}")
     |> Enum.into([])
     |> (&Client.request(client, &1)).()
     |> decode(%YNAB.Model.TransactionResponse{})
@@ -80,10 +75,10 @@ defmodule YNAB.Api.Transactions do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
   - opts (KeywordList): [optional] Optional parameters
-    - :since_date (Date.t): Only return transactions on or after this date.
-    - :type (String.t): Only return transactions of a certain type (i.e. &#39;uncategorized&#39;, &#39;unapproved&#39;)
+    - :since_date (Date.t): Only return transactions on or after this date
+    - :type (String.t): Only return transactions of a certain type (&#39;uncategorized&#39; and &#39;unapproved&#39; are currently supported)
 
   ## Returns
 
@@ -114,10 +109,11 @@ defmodule YNAB.Api.Transactions do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - account_id (String.t): The ID of the Account.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - account_id (String.t): The id of the account
   - opts (KeywordList): [optional] Optional parameters
-    - :since_date (Date.t): Only return transactions on or after this date.
+    - :since_date (Date.t): Only return transactions on or after this date
+    - :type (String.t): Only return transactions of a certain type (i.e. &#39;uncategorized&#39;, &#39;unapproved&#39;)
 
   ## Returns
 
@@ -128,7 +124,8 @@ defmodule YNAB.Api.Transactions do
           {:ok, YNAB.Model.TransactionsResponse.t()} | {:error, Tesla.Env.t()}
   def get_transactions_by_account(client, budget_id, account_id, opts \\ []) do
     optional_params = %{
-      since_date: :query
+      since_date: :query,
+      type: :query
     }
 
     %{}
@@ -147,10 +144,11 @@ defmodule YNAB.Api.Transactions do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - category_id (String.t): The ID of the Category.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - category_id (String.t): The id of the category
   - opts (KeywordList): [optional] Optional parameters
-    - :since_date (Date.t): Only return transactions on or after this date.
+    - :since_date (Date.t): Only return transactions on or after this date
+    - :type (String.t): Only return transactions of a certain type (i.e. &#39;uncategorized&#39;, &#39;unapproved&#39;)
 
   ## Returns
 
@@ -161,7 +159,8 @@ defmodule YNAB.Api.Transactions do
           {:ok, YNAB.Model.HybridTransactionsResponse.t()} | {:error, Tesla.Env.t()}
   def get_transactions_by_category(client, budget_id, category_id, opts \\ []) do
     optional_params = %{
-      since_date: :query
+      since_date: :query,
+      type: :query
     }
 
     %{}
@@ -174,43 +173,17 @@ defmodule YNAB.Api.Transactions do
   end
 
   @doc """
-  Single transaction
-  Returns a single transaction
-
-  ## Parameters
-
-  - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - transaction_id (String.t): The ID of the Transaction.
-  - opts (KeywordList): [optional] Optional parameters
-
-  ## Returns
-
-  {:ok, %YNAB.Model.TransactionResponse{}} on success
-  {:error, info} on failure
-  """
-  @spec get_transactions_by_id(Tesla.Env.client(), String.t(), String.t(), keyword()) ::
-          {:ok, YNAB.Model.TransactionResponse.t()} | {:error, Tesla.Env.t()}
-  def get_transactions_by_id(client, budget_id, transaction_id, _opts \\ []) do
-    %{}
-    |> method(:get)
-    |> url("/budgets/#{budget_id}/transactions/#{transaction_id}")
-    |> Enum.into([])
-    |> (&Client.request(client, &1)).()
-    |> decode(%YNAB.Model.TransactionResponse{})
-  end
-
-  @doc """
   List payee transactions
   Returns all transactions for a specified payee
 
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - payee_id (String.t): The ID of the Payee.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - payee_id (String.t): The id of the payee
   - opts (KeywordList): [optional] Optional parameters
-    - :since_date (Date.t): Only return transactions on or after this date.
+    - :since_date (Date.t): Only return transactions on or after this date
+    - :type (String.t): Only return transactions of a certain type (i.e. &#39;uncategorized&#39;, &#39;unapproved&#39;)
 
   ## Returns
 
@@ -221,7 +194,8 @@ defmodule YNAB.Api.Transactions do
           {:ok, YNAB.Model.HybridTransactionsResponse.t()} | {:error, Tesla.Env.t()}
   def get_transactions_by_payee(client, budget_id, payee_id, opts \\ []) do
     optional_params = %{
-      since_date: :query
+      since_date: :query,
+      type: :query
     }
 
     %{}
@@ -240,9 +214,9 @@ defmodule YNAB.Api.Transactions do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - transaction_id (String.t): The ID of the Transaction.
-  - transaction (SaveTransactionWrapper): The Transaction to update.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - transaction_id (String.t): The id of the transaction
+  - transaction (SaveTransactionWrapper): The transaction to update
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns

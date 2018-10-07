@@ -16,9 +16,9 @@ defmodule YNAB.Api.Budgets do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
   - opts (KeywordList): [optional] Optional parameters
-    - :last_knowledge_of_server (float()): The starting server knowledge.  If provided, only entities that have changed since last_knowledge_of_server will be included.
+    - :last_knowledge_of_server (integer()): The starting server knowledge.  If provided, only entities that have changed since last_knowledge_of_server will be included.
 
   ## Returns
 
@@ -42,8 +42,34 @@ defmodule YNAB.Api.Budgets do
   end
 
   @doc """
+  Budget Settings
+  Returns settings for a budget
+
+  ## Parameters
+
+  - client (YNAB.Client): Connection to server
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - opts (KeywordList): [optional] Optional parameters
+
+  ## Returns
+
+  {:ok, %YNAB.Model.BudgetSettingsResponse{}} on success
+  {:error, info} on failure
+  """
+  @spec get_budget_settings_by_id(Tesla.Env.client(), String.t(), keyword()) ::
+          {:ok, YNAB.Model.BudgetSettingsResponse.t()} | {:error, Tesla.Env.t()}
+  def get_budget_settings_by_id(client, budget_id, _opts \\ []) do
+    %{}
+    |> method(:get)
+    |> url("/budgets/#{budget_id}/settings")
+    |> Enum.into([])
+    |> (&Client.request(client, &1)).()
+    |> decode(%YNAB.Model.BudgetSettingsResponse{})
+  end
+
+  @doc """
   List budgets
-  Returns budgets list with summary information.
+  Returns budgets list with summary information
 
   ## Parameters
 

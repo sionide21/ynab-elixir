@@ -11,12 +11,12 @@ defmodule YNAB.Api.Categories do
 
   @doc """
   List categories
-  Returns all categories grouped by category group.
+  Returns all categories grouped by category group.  Amounts (budgeted, activity, balance, etc.) are specific to the current budget month (UTC).
 
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -37,13 +37,13 @@ defmodule YNAB.Api.Categories do
 
   @doc """
   Single category
-  Returns a single category
+  Returns a single category.  Amounts (budgeted, activity, balance, etc.) are specific to the current budget month (UTC).
 
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - category_id (String.t): The ID of the Category.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - category_id (String.t): The id of the category
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -57,6 +57,70 @@ defmodule YNAB.Api.Categories do
     %{}
     |> method(:get)
     |> url("/budgets/#{budget_id}/categories/#{category_id}")
+    |> Enum.into([])
+    |> (&Client.request(client, &1)).()
+    |> decode(%YNAB.Model.CategoryResponse{})
+  end
+
+  @doc """
+  Single category for a specific budget month
+  Returns a single category for a specific budget month.  Amounts (budgeted, activity, balance, etc.) are specific to the current budget month (UTC).
+
+  ## Parameters
+
+  - client (YNAB.Client): Connection to server
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - month (Date.t): The budget month in ISO format (e.g. 2016-12-30) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
+  - category_id (String.t): The id of the category
+  - opts (KeywordList): [optional] Optional parameters
+
+  ## Returns
+
+  {:ok, %YNAB.Model.CategoryResponse{}} on success
+  {:error, info} on failure
+  """
+  @spec get_month_category_by_id(Tesla.Env.client(), String.t(), Date.t(), String.t(), keyword()) ::
+          {:ok, YNAB.Model.CategoryResponse.t()} | {:error, Tesla.Env.t()}
+  def get_month_category_by_id(client, budget_id, month, category_id, _opts \\ []) do
+    %{}
+    |> method(:get)
+    |> url("/budgets/#{budget_id}/months/#{month}/categories/#{category_id}")
+    |> Enum.into([])
+    |> (&Client.request(client, &1)).()
+    |> decode(%YNAB.Model.CategoryResponse{})
+  end
+
+  @doc """
+  Update an existing month category
+  Update an existing month category
+
+  ## Parameters
+
+  - client (YNAB.Client): Connection to server
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - month (Date.t): The budget month in ISO format (e.g. 2016-12-30) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
+  - category_id (String.t): The id of the category
+  - month_category (SaveMonthCategoryWrapper): The month category to update
+  - opts (KeywordList): [optional] Optional parameters
+
+  ## Returns
+
+  {:ok, %YNAB.Model.CategoryResponse{}} on success
+  {:error, info} on failure
+  """
+  @spec update_month_category(
+          Tesla.Env.client(),
+          String.t(),
+          Date.t(),
+          String.t(),
+          YNAB.Model.SaveMonthCategoryWrapper.t(),
+          keyword()
+        ) :: {:ok, YNAB.Model.CategoryResponse.t()} | {:error, Tesla.Env.t()}
+  def update_month_category(client, budget_id, month, category_id, month_category, _opts \\ []) do
+    %{}
+    |> method(:patch)
+    |> url("/budgets/#{budget_id}/months/#{month}/categories/#{category_id}")
+    |> add_param(:body, :month_category, month_category)
     |> Enum.into([])
     |> (&Client.request(client, &1)).()
     |> decode(%YNAB.Model.CategoryResponse{})

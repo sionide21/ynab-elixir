@@ -12,16 +12,28 @@ defmodule YNAB.Model.SaveTransaction do
     :account_id,
     :date,
     :amount,
+    :payee_id,
+    :payee_name,
+    :category_id,
+    :memo,
     :cleared,
-    :approved
+    :approved,
+    :flag_color,
+    :import_id
   ]
 
   @type t :: %__MODULE__{
           account_id: String.t(),
           date: Date.t(),
-          amount: float(),
+          amount: integer(),
+          payee_id: String.t(),
+          payee_name: String.t(),
+          category_id: String.t(),
+          memo: String.t(),
           cleared: String.t(),
-          approved: boolean()
+          approved: boolean(),
+          flag_color: String.t(),
+          import_id: String.t()
         }
 end
 

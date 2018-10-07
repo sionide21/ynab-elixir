@@ -16,8 +16,8 @@ defmodule YNAB.Api.ScheduledTransactions do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - scheduled_transaction_id (String.t): The ID of the Scheduled Transaction.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - scheduled_transaction_id (String.t): The id of the scheduled transaction
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -43,7 +43,7 @@ defmodule YNAB.Api.ScheduledTransactions do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns

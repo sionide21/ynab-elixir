@@ -11,6 +11,7 @@ defmodule YNAB.Model.BudgetDetail do
   defstruct [
     :id,
     :name,
+    :last_modified_on,
     :date_format,
     :currency_format,
     :accounts,
@@ -28,6 +29,7 @@ defmodule YNAB.Model.BudgetDetail do
   @type t :: %__MODULE__{
           id: String.t(),
           name: String.t(),
+          last_modified_on: DateTime.t(),
           date_format: DateFormat,
           currency_format: CurrencyFormat,
           accounts: [Account],

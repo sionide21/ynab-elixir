@@ -11,7 +11,7 @@ defmodule YNAB.Api.User do
 
   @doc """
   User info
-  Returns authenticated user information.
+  Returns authenticated user information
 
   ## Parameters
 

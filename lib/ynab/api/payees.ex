@@ -16,8 +16,8 @@ defmodule YNAB.Api.Payees do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - payee_id (String.t): The ID of the Payee.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - payee_id (String.t): The id of the payee
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -43,7 +43,7 @@ defmodule YNAB.Api.Payees do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns

@@ -11,13 +11,23 @@ defmodule YNAB.Model.SubTransaction do
   defstruct [
     :id,
     :transaction_id,
-    :amount
+    :amount,
+    :memo,
+    :payee_id,
+    :category_id,
+    :transfer_account_id,
+    :deleted
   ]
 
   @type t :: %__MODULE__{
           id: String.t(),
           transaction_id: String.t(),
-          amount: float()
+          amount: integer(),
+          memo: String.t(),
+          payee_id: String.t(),
+          category_id: String.t(),
+          transfer_account_id: String.t(),
+          deleted: boolean()
         }
 end
 

@@ -2,28 +2,22 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit manually.
 
-defmodule YNAB.Model.Payee do
+defmodule YNAB.Model.SaveMonthCategory do
   @moduledoc """
 
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :id,
-    :name,
-    :transfer_account_id,
-    :deleted
+    :budgeted
   ]
 
   @type t :: %__MODULE__{
-          id: String.t(),
-          name: String.t(),
-          transfer_account_id: String.t(),
-          deleted: boolean()
+          budgeted: integer()
         }
 end
 
-defimpl Poison.Decoder, for: YNAB.Model.Payee do
+defimpl Poison.Decoder, for: YNAB.Model.SaveMonthCategory do
   def decode(value, _options) do
     value
   end

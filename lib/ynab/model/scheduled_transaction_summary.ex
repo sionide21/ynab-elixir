@@ -14,7 +14,13 @@ defmodule YNAB.Model.ScheduledTransactionSummary do
     :date_next,
     :frequency,
     :amount,
-    :account_id
+    :memo,
+    :flag_color,
+    :account_id,
+    :payee_id,
+    :category_id,
+    :transfer_account_id,
+    :deleted
   ]
 
   @type t :: %__MODULE__{
@@ -22,8 +28,14 @@ defmodule YNAB.Model.ScheduledTransactionSummary do
           date_first: Date.t(),
           date_next: Date.t(),
           frequency: String.t(),
-          amount: float(),
-          account_id: String.t()
+          amount: integer(),
+          memo: String.t(),
+          flag_color: String.t(),
+          account_id: String.t(),
+          payee_id: String.t(),
+          category_id: String.t(),
+          transfer_account_id: String.t(),
+          deleted: boolean()
         }
 end
 

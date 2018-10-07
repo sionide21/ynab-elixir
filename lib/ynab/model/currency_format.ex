@@ -22,7 +22,7 @@ defmodule YNAB.Model.CurrencyFormat do
   @type t :: %__MODULE__{
           iso_code: String.t(),
           example_format: String.t(),
-          decimal_digits: float(),
+          decimal_digits: integer(),
           decimal_separator: String.t(),
           symbol_first: boolean(),
           group_separator: String.t(),
