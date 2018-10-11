@@ -10,11 +10,23 @@ defmodule YNAB.Model.MonthDetail do
   @derive [Poison.Encoder]
   defstruct [
     :month,
+    :note,
+    :income,
+    :budgeted,
+    :activity,
+    :to_be_budgeted,
+    :age_of_money,
     :categories
   ]
 
   @type t :: %__MODULE__{
           month: Date.t(),
+          note: String.t(),
+          income: integer(),
+          budgeted: integer(),
+          activity: integer(),
+          to_be_budgeted: integer(),
+          age_of_money: integer(),
           categories: [Category]
         }
 end

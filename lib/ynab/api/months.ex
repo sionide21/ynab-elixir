@@ -16,8 +16,8 @@ defmodule YNAB.Api.Months do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - month (Date.t): The Budget Month.  \&quot;current\&quot; can also be used to specify the current calendar month (UTC).
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - month (Date.t): The budget month in ISO format (e.g. 2016-12-30) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -43,7 +43,7 @@ defmodule YNAB.Api.Months do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns

@@ -2,30 +2,24 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit manually.
 
-defmodule YNAB.Model.BudgetSummary do
+defmodule YNAB.Model.BudgetSettings do
   @moduledoc """
 
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :id,
-    :name,
-    :last_modified_on,
     :date_format,
     :currency_format
   ]
 
   @type t :: %__MODULE__{
-          id: String.t(),
-          name: String.t(),
-          last_modified_on: DateTime.t(),
           date_format: DateFormat,
           currency_format: CurrencyFormat
         }
 end
 
-defimpl Poison.Decoder, for: YNAB.Model.BudgetSummary do
+defimpl Poison.Decoder, for: YNAB.Model.BudgetSettings do
   import YNAB.Deserializer
 
   def decode(value, options) do

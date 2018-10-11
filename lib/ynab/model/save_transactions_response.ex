@@ -2,28 +2,26 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit manually.
 
-defmodule YNAB.Model.BudgetDetailWrapper do
+defmodule YNAB.Model.SaveTransactionsResponse do
   @moduledoc """
 
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :budget,
-    :server_knowledge
+    :data
   ]
 
   @type t :: %__MODULE__{
-          budget: BudgetDetail,
-          server_knowledge: integer()
+          data: SaveTransactionsResponseData
         }
 end
 
-defimpl Poison.Decoder, for: YNAB.Model.BudgetDetailWrapper do
+defimpl Poison.Decoder, for: YNAB.Model.SaveTransactionsResponse do
   import YNAB.Deserializer
 
   def decode(value, options) do
     value
-    |> deserialize(:budget, :struct, YNAB.Model.BudgetDetail, options)
+    |> deserialize(:data, :struct, YNAB.Model.SaveTransactionsResponseData, options)
   end
 end

@@ -10,12 +10,18 @@ defmodule YNAB.Model.PayeeLocation do
   @derive [Poison.Encoder]
   defstruct [
     :id,
-    :payee_id
+    :payee_id,
+    :latitude,
+    :longitude,
+    :deleted
   ]
 
   @type t :: %__MODULE__{
           id: String.t(),
-          payee_id: String.t()
+          payee_id: String.t(),
+          latitude: String.t(),
+          longitude: String.t(),
+          deleted: boolean()
         }
 end
 

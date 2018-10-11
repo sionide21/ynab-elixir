@@ -2,28 +2,26 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit manually.
 
-defmodule YNAB.Model.BudgetDetailWrapper do
+defmodule YNAB.Model.SaveMonthCategoryWrapper do
   @moduledoc """
 
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :budget,
-    :server_knowledge
+    :month_category
   ]
 
   @type t :: %__MODULE__{
-          budget: BudgetDetail,
-          server_knowledge: integer()
+          month_category: SaveMonthCategory
         }
 end
 
-defimpl Poison.Decoder, for: YNAB.Model.BudgetDetailWrapper do
+defimpl Poison.Decoder, for: YNAB.Model.SaveMonthCategoryWrapper do
   import YNAB.Deserializer
 
   def decode(value, options) do
     value
-    |> deserialize(:budget, :struct, YNAB.Model.BudgetDetail, options)
+    |> deserialize(:month_category, :struct, YNAB.Model.SaveMonthCategory, options)
   end
 end

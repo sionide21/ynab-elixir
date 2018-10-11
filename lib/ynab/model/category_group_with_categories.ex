@@ -12,6 +12,7 @@ defmodule YNAB.Model.CategoryGroupWithCategories do
     :id,
     :name,
     :hidden,
+    :deleted,
     :categories
   ]
 
@@ -19,6 +20,7 @@ defmodule YNAB.Model.CategoryGroupWithCategories do
           id: String.t(),
           name: String.t(),
           hidden: boolean(),
+          deleted: boolean(),
           categories: [Category]
         }
 end

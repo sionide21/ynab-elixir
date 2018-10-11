@@ -12,22 +12,44 @@ defmodule YNAB.Model.HybridTransaction do
     :id,
     :date,
     :amount,
+    :memo,
     :cleared,
     :approved,
+    :flag_color,
     :account_id,
+    :payee_id,
+    :category_id,
+    :transfer_account_id,
+    :transfer_transaction_id,
+    :import_id,
+    :deleted,
     :type,
-    :account_name
+    :parent_transaction_id,
+    :account_name,
+    :payee_name,
+    :category_name
   ]
 
   @type t :: %__MODULE__{
           id: String.t(),
           date: Date.t(),
-          amount: float(),
+          amount: integer(),
+          memo: String.t(),
           cleared: String.t(),
           approved: boolean(),
+          flag_color: String.t(),
           account_id: String.t(),
+          payee_id: String.t(),
+          category_id: String.t(),
+          transfer_account_id: String.t(),
+          transfer_transaction_id: String.t(),
+          import_id: String.t(),
+          deleted: boolean(),
           type: String.t(),
-          account_name: String.t()
+          parent_transaction_id: String.t(),
+          account_name: String.t(),
+          payee_name: String.t(),
+          category_name: String.t()
         }
 end
 

@@ -16,8 +16,8 @@ defmodule YNAB.Api.Accounts do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
-  - account_id (String.t): The ID of the Account.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - account_id (String.t): The id of the account
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -43,7 +43,7 @@ defmodule YNAB.Api.Accounts do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The ID of the Budget.
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns

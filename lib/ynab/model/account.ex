@@ -14,9 +14,12 @@ defmodule YNAB.Model.Account do
     :type,
     :on_budget,
     :closed,
+    :note,
     :balance,
     :cleared_balance,
-    :uncleared_balance
+    :uncleared_balance,
+    :transfer_payee_id,
+    :deleted
   ]
 
   @type t :: %__MODULE__{
@@ -25,9 +28,12 @@ defmodule YNAB.Model.Account do
           type: String.t(),
           on_budget: boolean(),
           closed: boolean(),
-          balance: float(),
-          cleared_balance: float(),
-          uncleared_balance: float()
+          note: String.t(),
+          balance: integer(),
+          cleared_balance: integer(),
+          uncleared_balance: integer(),
+          transfer_payee_id: String.t(),
+          deleted: boolean()
         }
 end
 

@@ -11,13 +11,15 @@ defmodule YNAB.Model.CategoryGroup do
   defstruct [
     :id,
     :name,
-    :hidden
+    :hidden,
+    :deleted
   ]
 
   @type t :: %__MODULE__{
           id: String.t(),
           name: String.t(),
-          hidden: boolean()
+          hidden: boolean(),
+          deleted: boolean()
         }
 end
 
