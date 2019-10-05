@@ -12,6 +12,8 @@ defmodule YNAB.Model.BudgetDetail do
     :id,
     :name,
     :last_modified_on,
+    :first_month,
+    :last_month,
     :date_format,
     :currency_format,
     :accounts,
@@ -30,6 +32,8 @@ defmodule YNAB.Model.BudgetDetail do
           id: String.t(),
           name: String.t(),
           last_modified_on: DateTime.t(),
+          first_month: Date.t(),
+          last_month: Date.t(),
           date_format: DateFormat,
           currency_format: CurrencyFormat,
           accounts: [Account],
@@ -50,6 +54,8 @@ defimpl Poison.Decoder, for: YNAB.Model.BudgetDetail do
 
   def decode(value, options) do
     value
+    |> deserialize(:first_month, :date, nil, options)
+    |> deserialize(:last_month, :date, nil, options)
     |> deserialize(:date_format, :struct, YNAB.Model.DateFormat, options)
     |> deserialize(:currency_format, :struct, YNAB.Model.CurrencyFormat, options)
     |> deserialize(:accounts, :list, YNAB.Model.Account, options)

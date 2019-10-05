@@ -16,6 +16,7 @@ defmodule YNAB.Model.MonthDetail do
     :activity,
     :to_be_budgeted,
     :age_of_money,
+    :deleted,
     :categories
   ]
 
@@ -27,6 +28,7 @@ defmodule YNAB.Model.MonthDetail do
           activity: integer(),
           to_be_budgeted: integer(),
           age_of_money: integer(),
+          deleted: boolean(),
           categories: [Category]
         }
 end

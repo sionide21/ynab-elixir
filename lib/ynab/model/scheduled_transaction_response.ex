@@ -13,7 +13,7 @@ defmodule YNAB.Model.ScheduledTransactionResponse do
   ]
 
   @type t :: %__MODULE__{
-          data: ScheduledTransactionWrapper
+          data: ScheduledTransactionResponseData
         }
 end
 
@@ -22,6 +22,6 @@ defimpl Poison.Decoder, for: YNAB.Model.ScheduledTransactionResponse do
 
   def decode(value, options) do
     value
-    |> deserialize(:data, :struct, YNAB.Model.ScheduledTransactionWrapper, options)
+    |> deserialize(:data, :struct, YNAB.Model.ScheduledTransactionResponseData, options)
   end
 end

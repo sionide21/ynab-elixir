@@ -16,7 +16,7 @@ defmodule YNAB.Api.Payees do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - payee_id (String.t): The id of the payee
   - opts (KeywordList): [optional] Optional parameters
 
@@ -43,8 +43,9 @@ defmodule YNAB.Api.Payees do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - opts (KeywordList): [optional] Optional parameters
+    - :last_knowledge_of_server (integer()): The starting server knowledge.  If provided, only entities that have changed since last_knowledge_of_server will be included.
 
   ## Returns
 
@@ -53,10 +54,15 @@ defmodule YNAB.Api.Payees do
   """
   @spec get_payees(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, YNAB.Model.PayeesResponse.t()} | {:error, Tesla.Env.t()}
-  def get_payees(client, budget_id, _opts \\ []) do
+  def get_payees(client, budget_id, opts \\ []) do
+    optional_params = %{
+      last_knowledge_of_server: :query
+    }
+
     %{}
     |> method(:get)
     |> url("/budgets/#{budget_id}/payees")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Client.request(client, &1)).()
     |> decode(%YNAB.Model.PayeesResponse{})

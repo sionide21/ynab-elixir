@@ -16,7 +16,7 @@ defmodule YNAB.Api.Budgets do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - opts (KeywordList): [optional] Optional parameters
     - :last_knowledge_of_server (integer()): The starting server knowledge.  If provided, only entities that have changed since last_knowledge_of_server will be included.
 
@@ -48,7 +48,7 @@ defmodule YNAB.Api.Budgets do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns

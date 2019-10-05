@@ -16,7 +16,7 @@ defmodule YNAB.Api.PayeeLocations do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - payee_location_id (String.t): id of payee location
   - opts (KeywordList): [optional] Optional parameters
 
@@ -43,7 +43,7 @@ defmodule YNAB.Api.PayeeLocations do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -69,7 +69,7 @@ defmodule YNAB.Api.PayeeLocations do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - payee_id (String.t): id of payee
   - opts (KeywordList): [optional] Optional parameters
 

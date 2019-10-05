@@ -13,7 +13,7 @@ defmodule YNAB.Model.PayeeLocationsResponse do
   ]
 
   @type t :: %__MODULE__{
-          data: PayeeLocationsWrapper
+          data: PayeeLocationsResponseData
         }
 end
 
@@ -22,6 +22,6 @@ defimpl Poison.Decoder, for: YNAB.Model.PayeeLocationsResponse do
 
   def decode(value, options) do
     value
-    |> deserialize(:data, :struct, YNAB.Model.PayeeLocationsWrapper, options)
+    |> deserialize(:data, :struct, YNAB.Model.PayeeLocationsResponseData, options)
   end
 end

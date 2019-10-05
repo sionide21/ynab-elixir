@@ -2,26 +2,26 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit manually.
 
-defmodule YNAB.Model.PayeeLocationResponse do
+defmodule YNAB.Model.MonthDetailResponseData do
   @moduledoc """
 
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :data
+    :month
   ]
 
   @type t :: %__MODULE__{
-          data: PayeeLocationResponseData
+          month: MonthDetail
         }
 end
 
-defimpl Poison.Decoder, for: YNAB.Model.PayeeLocationResponse do
+defimpl Poison.Decoder, for: YNAB.Model.MonthDetailResponseData do
   import YNAB.Deserializer
 
   def decode(value, options) do
     value
-    |> deserialize(:data, :struct, YNAB.Model.PayeeLocationResponseData, options)
+    |> deserialize(:month, :struct, YNAB.Model.MonthDetail, options)
   end
 end

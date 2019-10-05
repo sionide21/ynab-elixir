@@ -2,22 +2,24 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit manually.
 
-defmodule YNAB.Model.DateFormat do
+defmodule YNAB.Model.BulkResponseDataBulk do
   @moduledoc """
-  The date format setting for the budget.  In some cases the format will not be available and will be specified as null.
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :format
+    :transaction_ids,
+    :duplicate_import_ids
   ]
 
   @type t :: %__MODULE__{
-          format: String.t()
+          transaction_ids: [String.t()],
+          duplicate_import_ids: [String.t()]
         }
 end
 
-defimpl Poison.Decoder, for: YNAB.Model.DateFormat do
+defimpl Poison.Decoder, for: YNAB.Model.BulkResponseDataBulk do
   def decode(value, _options) do
     value
   end

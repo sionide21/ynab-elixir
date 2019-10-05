@@ -16,7 +16,7 @@ defmodule YNAB.Api.Deprecated do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - transactions (BulkTransactions): The list of transactions to create
   - opts (KeywordList): [optional] Optional parameters
 
