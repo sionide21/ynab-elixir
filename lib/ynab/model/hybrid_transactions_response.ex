@@ -13,7 +13,7 @@ defmodule YNAB.Model.HybridTransactionsResponse do
   ]
 
   @type t :: %__MODULE__{
-          data: HybridTransactionsWrapper
+          data: HybridTransactionsResponseData
         }
 end
 
@@ -22,6 +22,6 @@ defimpl Poison.Decoder, for: YNAB.Model.HybridTransactionsResponse do
 
   def decode(value, options) do
     value
-    |> deserialize(:data, :struct, YNAB.Model.HybridTransactionsWrapper, options)
+    |> deserialize(:data, :struct, YNAB.Model.HybridTransactionsResponseData, options)
   end
 end

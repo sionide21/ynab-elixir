@@ -16,8 +16,9 @@ defmodule YNAB.Api.Categories do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - opts (KeywordList): [optional] Optional parameters
+    - :last_knowledge_of_server (integer()): The starting server knowledge.  If provided, only entities that have changed since last_knowledge_of_server will be included.
 
   ## Returns
 
@@ -26,10 +27,15 @@ defmodule YNAB.Api.Categories do
   """
   @spec get_categories(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, YNAB.Model.CategoriesResponse.t()} | {:error, Tesla.Env.t()}
-  def get_categories(client, budget_id, _opts \\ []) do
+  def get_categories(client, budget_id, opts \\ []) do
+    optional_params = %{
+      last_knowledge_of_server: :query
+    }
+
     %{}
     |> method(:get)
     |> url("/budgets/#{budget_id}/categories")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Client.request(client, &1)).()
     |> decode(%YNAB.Model.CategoriesResponse{})
@@ -42,7 +48,7 @@ defmodule YNAB.Api.Categories do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - category_id (String.t): The id of the category
   - opts (KeywordList): [optional] Optional parameters
 
@@ -69,8 +75,8 @@ defmodule YNAB.Api.Categories do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
-  - month (Date.t): The budget month in ISO format (e.g. 2016-12-30) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
+  - month (Date.t): The budget month in ISO format (e.g. 2016-12-01) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
   - category_id (String.t): The id of the category
   - opts (KeywordList): [optional] Optional parameters
 
@@ -91,21 +97,21 @@ defmodule YNAB.Api.Categories do
   end
 
   @doc """
-  Update an existing month category
-  Update an existing month category
+  Update a category for a specific month
+  Update a category for a specific month
 
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
-  - month (Date.t): The budget month in ISO format (e.g. 2016-12-30) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
+  - month (Date.t): The budget month in ISO format (e.g. 2016-12-01) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
   - category_id (String.t): The id of the category
-  - month_category (SaveMonthCategoryWrapper): The month category to update
+  - data (SaveMonthCategoryWrapper): The category to update
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
 
-  {:ok, %YNAB.Model.CategoryResponse{}} on success
+  {:ok, %YNAB.Model.SaveCategoryResponse{}} on success
   {:error, info} on failure
   """
   @spec update_month_category(
@@ -115,14 +121,14 @@ defmodule YNAB.Api.Categories do
           String.t(),
           YNAB.Model.SaveMonthCategoryWrapper.t(),
           keyword()
-        ) :: {:ok, YNAB.Model.CategoryResponse.t()} | {:error, Tesla.Env.t()}
-  def update_month_category(client, budget_id, month, category_id, month_category, _opts \\ []) do
+        ) :: {:ok, YNAB.Model.SaveCategoryResponse.t()} | {:error, Tesla.Env.t()}
+  def update_month_category(client, budget_id, month, category_id, data, _opts \\ []) do
     %{}
     |> method(:patch)
     |> url("/budgets/#{budget_id}/months/#{month}/categories/#{category_id}")
-    |> add_param(:body, :month_category, month_category)
+    |> add_param(:body, :data, data)
     |> Enum.into([])
     |> (&Client.request(client, &1)).()
-    |> decode(%YNAB.Model.CategoryResponse{})
+    |> decode(%YNAB.Model.SaveCategoryResponse{})
   end
 end

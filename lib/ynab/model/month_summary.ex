@@ -15,7 +15,8 @@ defmodule YNAB.Model.MonthSummary do
     :budgeted,
     :activity,
     :to_be_budgeted,
-    :age_of_money
+    :age_of_money,
+    :deleted
   ]
 
   @type t :: %__MODULE__{
@@ -25,7 +26,8 @@ defmodule YNAB.Model.MonthSummary do
           budgeted: integer(),
           activity: integer(),
           to_be_budgeted: integer(),
-          age_of_money: integer()
+          age_of_money: integer(),
+          deleted: boolean()
         }
 end
 

@@ -12,14 +12,16 @@ defmodule YNAB.Model.SaveTransactionsResponseData do
     :transaction_ids,
     :transaction,
     :transactions,
-    :duplicate_import_ids
+    :duplicate_import_ids,
+    :server_knowledge
   ]
 
   @type t :: %__MODULE__{
           transaction_ids: [String.t()],
           transaction: TransactionDetail,
           transactions: [TransactionDetail],
-          duplicate_import_ids: [String.t()]
+          duplicate_import_ids: [String.t()],
+          server_knowledge: integer()
         }
 end
 

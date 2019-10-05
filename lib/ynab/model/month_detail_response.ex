@@ -13,7 +13,7 @@ defmodule YNAB.Model.MonthDetailResponse do
   ]
 
   @type t :: %__MODULE__{
-          data: MonthDetailWrapper
+          data: MonthDetailResponseData
         }
 end
 
@@ -22,6 +22,6 @@ defimpl Poison.Decoder, for: YNAB.Model.MonthDetailResponse do
 
   def decode(value, options) do
     value
-    |> deserialize(:data, :struct, YNAB.Model.MonthDetailWrapper, options)
+    |> deserialize(:data, :struct, YNAB.Model.MonthDetailResponseData, options)
   end
 end

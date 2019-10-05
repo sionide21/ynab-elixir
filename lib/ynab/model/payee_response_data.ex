@@ -2,23 +2,26 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit manually.
 
-defmodule YNAB.Model.DateFormat do
+defmodule YNAB.Model.PayeeResponseData do
   @moduledoc """
-  The date format setting for the budget.  In some cases the format will not be available and will be specified as null.
+
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :format
+    :payee
   ]
 
   @type t :: %__MODULE__{
-          format: String.t()
+          payee: Payee
         }
 end
 
-defimpl Poison.Decoder, for: YNAB.Model.DateFormat do
-  def decode(value, _options) do
+defimpl Poison.Decoder, for: YNAB.Model.PayeeResponseData do
+  import YNAB.Deserializer
+
+  def decode(value, options) do
     value
+    |> deserialize(:payee, :struct, YNAB.Model.Payee, options)
   end
 end

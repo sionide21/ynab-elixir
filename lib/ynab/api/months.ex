@@ -16,8 +16,8 @@ defmodule YNAB.Api.Months do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
-  - month (Date.t): The budget month in ISO format (e.g. 2016-12-30) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
+  - month (Date.t): The budget month in ISO format (e.g. 2016-12-01) (\&quot;current\&quot; can also be used to specify the current calendar month (UTC))
   - opts (KeywordList): [optional] Optional parameters
 
   ## Returns
@@ -43,8 +43,9 @@ defmodule YNAB.Api.Months do
   ## Parameters
 
   - client (YNAB.Client): Connection to server
-  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can also be used to specify the last used budget)
+  - budget_id (String.t): The id of the budget (\&quot;last-used\&quot; can be used to specify the last used budget and \&quot;default\&quot; can be used if default budget selection is enabled (see: https://api.youneedabudget.com/#oauth-default-budget)
   - opts (KeywordList): [optional] Optional parameters
+    - :last_knowledge_of_server (integer()): The starting server knowledge.  If provided, only entities that have changed since last_knowledge_of_server will be included.
 
   ## Returns
 
@@ -53,10 +54,15 @@ defmodule YNAB.Api.Months do
   """
   @spec get_budget_months(Tesla.Env.client(), String.t(), keyword()) ::
           {:ok, YNAB.Model.MonthSummariesResponse.t()} | {:error, Tesla.Env.t()}
-  def get_budget_months(client, budget_id, _opts \\ []) do
+  def get_budget_months(client, budget_id, opts \\ []) do
+    optional_params = %{
+      last_knowledge_of_server: :query
+    }
+
     %{}
     |> method(:get)
     |> url("/budgets/#{budget_id}/months")
+    |> add_optional_params(optional_params, opts)
     |> Enum.into([])
     |> (&Client.request(client, &1)).()
     |> decode(%YNAB.Model.MonthSummariesResponse{})

@@ -2,50 +2,44 @@
 # https://github.com/swagger-api/swagger-codegen.git
 # Do not edit manually.
 
-defmodule YNAB.Model.TransactionSummary do
+defmodule YNAB.Model.UpdateTransaction do
   @moduledoc """
 
   """
 
   @derive [Poison.Encoder]
   defstruct [
-    :id,
+    :account_id,
     :date,
     :amount,
+    :payee_id,
+    :payee_name,
+    :category_id,
     :memo,
     :cleared,
     :approved,
     :flag_color,
-    :account_id,
-    :payee_id,
-    :category_id,
-    :transfer_account_id,
-    :transfer_transaction_id,
-    :matched_transaction_id,
     :import_id,
-    :deleted
+    :id
   ]
 
   @type t :: %__MODULE__{
-          id: String.t(),
+          account_id: String.t(),
           date: Date.t(),
           amount: integer(),
+          payee_id: String.t(),
+          payee_name: String.t(),
+          category_id: String.t(),
           memo: String.t(),
           cleared: String.t(),
           approved: boolean(),
           flag_color: String.t(),
-          account_id: String.t(),
-          payee_id: String.t(),
-          category_id: String.t(),
-          transfer_account_id: String.t(),
-          transfer_transaction_id: String.t(),
-          matched_transaction_id: String.t(),
           import_id: String.t(),
-          deleted: boolean()
+          id: String.t()
         }
 end
 
-defimpl Poison.Decoder, for: YNAB.Model.TransactionSummary do
+defimpl Poison.Decoder, for: YNAB.Model.UpdateTransaction do
   import YNAB.Deserializer
 
   def decode(value, options) do

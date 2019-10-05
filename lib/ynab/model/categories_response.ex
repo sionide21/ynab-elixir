@@ -13,7 +13,7 @@ defmodule YNAB.Model.CategoriesResponse do
   ]
 
   @type t :: %__MODULE__{
-          data: CategoryGroupsWrapper
+          data: CategoriesResponseData
         }
 end
 
@@ -22,6 +22,6 @@ defimpl Poison.Decoder, for: YNAB.Model.CategoriesResponse do
 
   def decode(value, options) do
     value
-    |> deserialize(:data, :struct, YNAB.Model.CategoryGroupsWrapper, options)
+    |> deserialize(:data, :struct, YNAB.Model.CategoriesResponseData, options)
   end
 end

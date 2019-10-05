@@ -9,11 +9,11 @@ defmodule YNAB.Model.SaveMonthCategoryWrapper do
 
   @derive [Poison.Encoder]
   defstruct [
-    :month_category
+    :category
   ]
 
   @type t :: %__MODULE__{
-          month_category: SaveMonthCategory
+          category: SaveMonthCategory
         }
 end
 
@@ -22,6 +22,6 @@ defimpl Poison.Decoder, for: YNAB.Model.SaveMonthCategoryWrapper do
 
   def decode(value, options) do
     value
-    |> deserialize(:month_category, :struct, YNAB.Model.SaveMonthCategory, options)
+    |> deserialize(:category, :struct, YNAB.Model.SaveMonthCategory, options)
   end
 end
